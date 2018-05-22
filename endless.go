@@ -7,7 +7,7 @@ import (
 
 type (
 	Endless struct {
-		sync.Mutex
+		sync.RWMutex
 		data        []byte
 		writeCursor uint64
 		start       uint64
@@ -32,20 +32,14 @@ func (e *Endless) pos() int {
 }
 
 func (e *Endless) MidPoint() uint64 {
-	e.Lock()
-	defer e.Unlock()
 	return (e.start + e.writeCursor) / 2
 }
 
 func (e *Endless) Start() uint64 {
-	e.Lock()
-	defer e.Unlock()
 	return e.start
 }
 
 func (e *Endless) End() uint64 {
-	e.Lock()
-	defer e.Unlock()
 	return e.writeCursor
 }
 
@@ -86,8 +80,8 @@ func (e *Endless) NewReader(start uint64) *EndlessReader {
 }
 
 func (r *EndlessReader) Read(buf []byte) (n int, err error) {
-	r.source.Lock()
-	defer r.source.Unlock()
+	r.source.RLock()
+	defer r.source.RUnlock()
 	if r.source.start > r.pos {
 		return 0, errors.New("reader has remained behind the buffer")
 	}
