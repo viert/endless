@@ -43,6 +43,10 @@ func (e *Endless) End() uint64 {
 	return e.writeCursor
 }
 
+func (e *Endless) Filled() bool {
+    return e.writeCursor - e.start == uint64(len(e.data))
+}
+
 func (e *Endless) Write(buf []byte) (int, error) {
 	e.Lock()
 	defer e.Unlock()
