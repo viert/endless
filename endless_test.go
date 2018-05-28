@@ -50,9 +50,9 @@ func TestEndless(t *testing.T) {
 		t.Errorf("e.pos() is expected to be 5 but is %d", e.pos())
 	}
 
-    if e.Filled() {
-        t.Error("Filled() should return false at this point")
-    }
+	if e.Filled() {
+		t.Error("Filled() should return false at this point")
+	}
 
 	e.Write(second)
 	for i, item := range result {
@@ -73,10 +73,10 @@ func TestEndless(t *testing.T) {
 		t.Errorf("writeCursor must be at position %d but is at %d instead", len(first)+len(second), e.writeCursor)
 	}
 
-    e.Write(write1)
-    if !e.Filled() {
-        t.Error("Filled() should return true at this point")
-    }
+	e.Write(write1)
+	if !e.Filled() {
+		t.Error("Filled() should return true at this point")
+	}
 }
 
 func TestReader(t *testing.T) {
